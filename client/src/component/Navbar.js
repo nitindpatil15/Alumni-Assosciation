@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-blue-500 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white text-2xl font-bold">
-          <Link to="/">Your Guide is from Hello World as a alumani association</Link>
+          <Link to="/">{props.title}</Link>
         </div>
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-white">
