@@ -1,9 +1,10 @@
 import express,{ Router } from "express";
 import cookieParser from "cookie-parser"
 // import routers here 
+import chatRoutes from "./Router/chatRouter.js"
+import userRoutes from "./Router/userRouter.js"
 
 const app = express()
-const router = Router()
 
 // for setting limits on data
 app.use(express.json({ limit: "50mb" }));
@@ -18,6 +19,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // Routes for API 
-router.route("/").post()
+app.use("/api/v1/user/auth", userRoutes);
+app.use("/api/v1/user/chat",chatRoutes)
 
 export {app}
