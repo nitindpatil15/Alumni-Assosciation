@@ -8,6 +8,7 @@ const userSchema = new Schema(
     name: {
       type: String,
       require: true,
+      minlength:5
     },
     email: {
       type: String,
@@ -17,6 +18,11 @@ const userSchema = new Schema(
     mobile: {
       type: Number,
       require: true,
+      unique:true,
+      maxlength:10
+    },
+    avatar:{
+      type:String
     },
     DOB: {
       type: Date,
@@ -38,6 +44,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      minlength:8
     },
     role: ["Student", "Alumni", "Institution", "Faculty"],
     accessToken: {
