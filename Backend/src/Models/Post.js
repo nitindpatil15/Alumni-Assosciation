@@ -9,7 +9,7 @@ const postSchema = new Schema({
         type:String,
         required:true
     },
-    image:{
+    mediaurl:{
         type:String
     },
     user:{
@@ -17,15 +17,14 @@ const postSchema = new Schema({
         ref:"User"
     },
     likes:{
-        type:Number
+        type:Number,
+        default:0
     },
     comments:[{
         type:Schema.Types.ObjectId,
-        ref:"Comment"
-    }],
-    joblink:{
-        type:String
-    }
+        ref:"Comment",
+        default:0
+    }]
 },{timestamps:true})
 
 export const Post = mongoose.model("Post",postSchema)
