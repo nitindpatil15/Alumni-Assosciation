@@ -6,6 +6,8 @@ import Signup from "./component/Signup";
 import Dashboard from "./component/Dashboard";
 import Navbar from "./component/Navbar";
 import Footer from "./Footer";
+import EventPage from "./component/Alumni/EventPosting";
+import RegisterEvent from "./component/Alumni/RegisterEvent";
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/events" element={<RegisterEvent/>} />
         </Routes>
       </div>
       <Footer/>
