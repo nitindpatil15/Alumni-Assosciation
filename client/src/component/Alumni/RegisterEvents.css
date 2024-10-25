@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  #RE-cont {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 5rem;
+  }
+  
+  .re-event-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: auto;
+  }
+  
+  .event-details {
+    padding: 20px;
+  }
+  
+  .event-details h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .event-details p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .register-button,
+  .attend-button {
+    padding: 10px 20px;
+    background-color: #0073b1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .register-button:hover,
+  .attend-button:hover {
+    background-color: #005582;
+  }
+  
+  /* Modal Styles */
+  .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  .modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .modal-content form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .modal-content button {
+    padding: 10px;
+  }
+  
+  .close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: black;
+  }
+  
+  @media (max-width: 768px) {
+    .event-card {
+      flex-direction: column;
+    }
+  
+    .thumbnail {
+      width: 100%;
+    }
+  
+    .event-details {
+      text-align: center;
+    }
+    #RE-cont {
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: .5rem;
+      }
+      .re-event-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+      }
+  }
+  
