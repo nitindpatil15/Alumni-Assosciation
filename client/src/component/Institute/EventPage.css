@@ -12,12 +12,6 @@
   .event-page{
     margin-top: 5rem;
   }
-  button.e-delete-btn {
-    background: red;
-}
-button.e-delete-btn:hover {
-  background-color: #820000;
-}
   
   #sub-button {
     padding: 10px 10px;
@@ -31,7 +25,6 @@ button.e-delete-btn:hover {
     flex-direction: row;
     align-items: center;
     display: flex;
-    margin: 0px;
     margin-top: 5rem;
     padding: 40px 20px;
     background: url('../../Assest/img/BG-Events.jpg');
@@ -100,7 +93,7 @@ button.e-delete-btn:hover {
   
   .view-btn {
     padding: 10px 20px;
-    background-color: #03b100;
+    background-color: #0073b1;
     color: white;
     border: none;
     border-radius: 5px;
@@ -108,31 +101,8 @@ button.e-delete-btn:hover {
   }
   
   .view-btn:hover {
-    background-color: #026800;
-    color: white;
+    background-color: #005582;
   }
-  .head-event {
-    padding: 10px 34px;
-    background: blue;
-    font-size: 18px;
-    color: white;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-.head-event {
-  padding: 10px 34px;
-  background: #009688;
-  display: flex;
-  font-size: 18px;
-  color: white;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  flex-wrap: nowrap;
-  flex-direction: row-reverse;
-}
   
   /* Modal styles */
   .modal {
@@ -150,24 +120,21 @@ button.e-delete-btn:hover {
   .modal-content {
     background-color: white;
     margin: 5% auto;
-    padding: 0px;
+    padding: 20px;
     border-radius: 10px;
-    
     width: 90%;
     max-width: 600px;
   }
   
   .modal-content h2 {
     text-align: center;
-    /* margin-bottom: 20px; */
+    margin-bottom: 20px;
   }
   
   .modal-content form {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    width: 100%;
-}
+  }
   
   .modal-content label {
     margin-bottom: 5px;
@@ -204,15 +171,12 @@ button.e-delete-btn:hover {
     #hevents {
       flex-direction: row;
       display: flex;
-      margin: 0px;
       margin-top: .5rem;
-      margin-bottom: 20px;
       align-items: flex-start;
       padding: 25px;
       background: url('../../Assest/img/BG-Events.jpg');
       background-repeat: no-repeat;
       background-size: 150%;
-      
     }
     .event-page{
         margin-top: .5rem;

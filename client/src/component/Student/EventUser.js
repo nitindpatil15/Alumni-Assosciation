@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './EventPage.css';
+import './EventUser.css';
+import { Link } from 'react-router-dom';
+import event from'../../Assest/img/event-icon.png'
 
-const EventPage = () => {
+const EventUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -52,7 +54,8 @@ const EventPage = () => {
     <div className="event-page">
       <div className="container" id='hevents'>
         <h1>Events</h1>
-        <button className="create-event-btn" onClick={openModal}>Create Event</button>
+        {/* <button className="create-event-btn" onClick={openModal}>Create Event</button> */}
+        <img src={event} alt="Logo" id='img-event'/> 
       </div>
 
       <div className="event-cards">
@@ -61,9 +64,10 @@ const EventPage = () => {
             <img src={`https://cdn.create.vista.com/downloads/7bd3d192-306a-4ceb-9908-803a73ebd430_1024.jpeg`} alt={`Event ${index} Thumbnail`} />
             <h3>Event Title {index}</h3>
             <div className='btn-event'>
-              <button className="view-btn" onClick={() => openViewModal({ title: `Event Title ${index}`, description: `Description for Event ${index}`, organizer: `Organizer ${index}`, date: '2024-10-10', location: 'Online' })}>View</button>
-              <button className="update-event-btn" onClick={() => openUpdateModal({ title: `Event Title ${index}`, organizer: `Organizer ${index}`, eventType: 'online', eventFor: 'student', date: '2024-10-10', endDate: '2024-10-12', description: `Description for Event ${index}`, speakers: 'Speaker Name' })}>Update</button>
-              <button className="e-delete-btn">Delete</button>
+            <Link to="/events" className="view-btn" >View</Link>
+              {/* <button className="view-btn" onClick={() => openViewModal({ title: `Event Title ${index}`, description: `Description for Event ${index}`, organizer: `Organizer ${index}`, date: '2024-10-10', location: 'Online' })}>View</button> */}
+              {/* <button className="update-event-btn" onClick={() => openUpdateModal({ title: `Event Title ${index}`, organizer: `Organizer ${index}`, eventType: 'online', eventFor: 'student', date: '2024-10-10', endDate: '2024-10-12', description: `Description for Event ${index}`, speakers: 'Speaker Name' })}>Update</button>
+              <button className="e-delete-btn">Delete</button> */}
             </div>
           </div>
         ))}
@@ -192,4 +196,4 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default EventUser;
