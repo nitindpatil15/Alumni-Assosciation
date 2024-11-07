@@ -18,11 +18,16 @@
 button.e-delete-btn:hover {
   background-color: #820000;
 }
+#img-event {
+    width: 10%;
+    height: auto;
+    margin-right: 10rem;
+}
   
   #sub-button {
     padding: 10px 10px;
     font-size: 20px;
-    background: #2196F3;
+    background: #009688 ;
     color: white;
     border: none;
     text-transform: capitalize;
@@ -109,7 +114,6 @@ button.e-delete-btn:hover {
   
   .view-btn:hover {
     background-color: #026800;
-    color: white;
   }
   .head-event {
     padding: 10px 34px;
@@ -207,7 +211,7 @@ button.e-delete-btn:hover {
       margin: 0px;
       margin-top: .5rem;
       margin-bottom: 20px;
-      align-items: flex-start;
+      align-items: center;
       padding: 25px;
       background: url('../../Assest/img/BG-Events.jpg');
       background-repeat: no-repeat;
@@ -219,7 +223,7 @@ button.e-delete-btn:hover {
     }
   
     #hevents h1 {
-      margin-bottom: 10px;
+      /* margin-bottom: 10px; */
       font-size: 28px;
       margin-left: 0px;
       font-weight: 600;
@@ -243,6 +247,11 @@ button.e-delete-btn:hover {
   border-radius: 10px;
   width: 90%;
   max-width: 600px;
+}
+#img-event {
+    width: 15%;
+    height: auto;
+    margin-right: 0rem;
 }
   }
   

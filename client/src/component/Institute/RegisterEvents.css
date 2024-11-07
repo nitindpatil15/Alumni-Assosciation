@@ -3,11 +3,6 @@
     padding: 0;
     box-sizing: border-box;
   }
-  .container {
-    max-width: 100%;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
   
   body {
     font-family: Arial, sans-serif;
@@ -54,7 +49,7 @@
   .register-button,
   .attend-button {
     padding: 10px 20px;
-    background-color: #009688;
+    background-color: #0073b1;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -64,16 +59,11 @@
   
   .register-button:hover,
   .attend-button:hover {
-    background-color: #00514f;
-    color: white;
-  }
-  #sub-button{
-    background-color: #009895;
-    color: #fff;
+    background-color: #005582;
   }
   
   /* Modal Styles */
-  .modal-reg {
+  .modal {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,34 +76,28 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
   
-  .modal-reg-content {
+  .modal-content {
     background-color: #fff;
-    /* padding: 20px; */
+    padding: 20px;
     border: 1px solid #888;
     width: 90%;
     max-width: 400px;
-    /* margin-top: 50rem; */
     border-radius: 10px;
     text-align: center;
     position: relative;
   }
   
-  .modal-reg-content h2 {
-    /* margin-bottom: 20px; */
-    color: white;
+  .modal-content h2 {
+    margin-bottom: 20px;
   }
-  .mod-conten {
-    padding: 20px;
-}
   
-  .modal-reg-content form {
+  .modal-content form {
     display: flex;
-    padding: 20px;
     flex-direction: column;
     gap: 10px;
   }
   
-  .modal-reg-content form input {
+  .modal-content form input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -122,22 +106,9 @@
   .modal-content button {
     padding: 10px;
   }
-  .head-event {
-    padding: 10px 34px;
-    background: #009895;
-    display: flex;
-    font-size: 18px;
-    color: white;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row-reverse;
-  }
-  .reg-close {
-    color: #ffffff;
+  
+  .close {
+    color: #aaa;
     position: absolute;
     top: 10px;
     right: 15px;
@@ -146,7 +117,7 @@
     cursor: pointer;
   }
   
-  .reg-close:hover {
+  .close:hover {
     color: black;
   }
   

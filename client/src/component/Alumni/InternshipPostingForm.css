@@ -1,0 +1,96 @@
+.internship-form-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 5rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .internship-button-h {
+    margin-bottom: 33px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .internship-back-btn {
+    padding: 6px 60px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  
+  .internship-progress-bar {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .internship-step {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    color: grey;
+  }
+  
+  .internship-step.active {
+    color: #4CAF50;
+  }
+  
+  .internship-step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+  
+  .internship-step.active .internship-step-number {
+    background-color: #4CAF50;
+  }
+  
+  .internship-form-step h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .internship-form-step label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  input, textarea, select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  #button-intern {
+    padding: 10px 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: none;
+    color: #fff;
+    background-color: #4CAF50;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  /* Responsive styles for mobile */
+@media (max-width: 768px) {
+    .internship-form-container {
+      padding: 15px; /* Reduced padding for mobile */
+      margin-top: 0rem; /* Adjusted margin for mobile */
+    }
+  }

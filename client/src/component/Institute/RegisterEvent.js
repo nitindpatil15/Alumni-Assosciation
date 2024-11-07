@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './RegisterEvents.css';
 
 const RegisterEvent = () => {
@@ -44,19 +43,15 @@ const RegisterEvent = () => {
           <button className="register-button" onClick={openRegisterModal}>
             Register for Event
           </button>
-          <Link to="/EventUser" className="register-button" >Go Back</Link>
-        
         </div>
       </div>
 
       {/* Registration Modal */}
       {isRegisterModalOpen && (
-        <div className="modal-reg" onClick={closeModal}>
-          <div className="modal-reg-content" onClick={(e) => e.stopPropagation()}>
-          <div className='head-event'>
+        <div className="modal" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close" onClick={closeModal}>&times;</span>
             <h2>Register for the Event</h2>
-            </div>
             <form onSubmit={handleSubmit}>
               <label htmlFor="email">Email:</label>
               <input type="email" id="email" name="email" required />
@@ -70,16 +65,12 @@ const RegisterEvent = () => {
 
       {/* Final Step Modal */}
       {isFinalStepModalOpen && (
-        <div className="modal-reg" onClick={closeModal}>
-          <div className="modal-reg-content" onClick={(e) => e.stopPropagation()}>
-          <div className='head-event'>
+        <div className="modal" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close" onClick={closeModal}>&times;</span>
             <h2>Congratulations!</h2>
-            </div>
-            <div className='mod-conten'>
             <p>Here is your final step. Click on the button below to add the webinar to your calendar.</p>
             <button className="attend-button" onClick={addToCalendar}>Attend Webinar</button>
-            </div>
           </div>
         </div>
       )}
