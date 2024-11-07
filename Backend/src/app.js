@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import chatRoutes from "./Router/chatRouter.js";
 import userRoutes from "./Router/userRouter.js";
 import postRoutes from "./Router/postRouter.js";
+import jobRoutes from "./Router/jobRouter.js";
+import eventRoutes from "./Router/eventRouter.js";
+import registerEventRoutes from "./Router/registerEventRoute.js";
 
 const app = express();
 
@@ -50,5 +53,8 @@ io.on("connection", (socket) => {
 app.use("/api/v1/user/auth", userRoutes);
 app.use("/api/v1/user/chat", chatRoutes);
 app.use("/api/v1/post", postRoutes);
+app.use("/api/v1/job", jobRoutes);
+app.use("/api/v1/event", eventRoutes);
+app.use("/api/v1/event/register", registerEventRoutes);
 
 export { app, io, server };

@@ -8,7 +8,7 @@ const router = Router()
 router.route('/newpost').post(authentication,upload.single("mediaurl"),createPost)
 router.route('/all-posts').get(allPosts)
 router.route('/delete-post/:postId').delete(authentication,deletePost)
-router.route('/update-post/:postId').patch(authentication,UpdatePost)
+router.route('/update-post/:postId').patch(authentication,upload.single("mediaurl"),UpdatePost)
 router.route('/user/all-posts').get(authentication,userPost)
 
 export default router

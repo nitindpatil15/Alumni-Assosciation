@@ -8,6 +8,7 @@ import Navbar from "./component/Navbar";
 import Footer from "./Footer";
 import EventPage from "./component/Alumni/EventPosting";
 import RegisterEvent from "./component/Alumni/RegisterEvent";
+import Chat from "./component/Chat/Chat";
 
 
 function App() {
@@ -19,8 +20,10 @@ function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
+          <Route path="/chat" element={<Chat/>} />
           <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/events" element={<RegisterEvent/>} />
+          <Route path="/events" element={<EventPage/>} />
+          <Route path="/get-event/:id" element={<RegisterEvent/>} />
         </Routes>
       </div>
       <Footer/>

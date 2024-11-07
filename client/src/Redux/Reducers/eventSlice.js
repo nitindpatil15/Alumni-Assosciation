@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { trusted } from "mongoose";
+import axios from "axios";
 
 const host = "http://localhost:5073/api/v1";
 
@@ -48,14 +48,14 @@ const eventSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addNewpost.pending, (state) => {
+      .addCase(addEvent.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addNewpost.fulfilled, (state, action) => {
+      .addCase(addEvent.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.posts = action.payload;
       })
-      .addCase(addNewpost.rejected, (state, action) => {
+      .addCase(addEvent.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

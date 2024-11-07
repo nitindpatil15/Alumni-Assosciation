@@ -24,32 +24,83 @@ const userSchema = new Schema(
     avatar:{
       type:String
     },
+    coverImage:{
+      type:String
+    },
+    city:{
+      type:String
+    },
     DOB: {
       type: Date,
+    },
+    gender:["Male,Female,Other"],
+    role: ["Student", "Alumni", "Institution", "Faculty"],
+    password: {
+      type: String,
+      required: true,
+      minlength:8
     },
     interest: [
       {
         type: String,
       },
     ],
-    branch: {
+
+    // Current Year 
+    current_branch: {
       type: String,
     },
-    batch: {
+    passing_year: {
       type: String,
     },
-    prn: {
+    current_prn: {
       type: Number,
     },
-    password: {
-      type: String,
-      required: true,
-      minlength:8
+    admission_year:{
+      type:Date
     },
-    role: ["Student", "Alumni", "Institution", "Faculty"],
+
+    // Past Qualification for alumni only
+    degree_passing_year :{
+      type:String
+    },
+    branch:{
+      type:String
+    },
+    alumni_prn:{
+      type:Number
+    },
     accessToken: {
       type: String,
     },
+
+    // Experience  and other Activities
+    current_company:{
+      type:String
+    },
+    position:{
+      type:String
+    },
+    exp_in_years:{
+      type:Number
+    },
+
+    internship_company:{
+      type:String
+    },
+    internship_position:{
+      type:String
+    },
+    internship_duration:{
+      type:String
+    },
+
+    event_registration:[
+      {
+        type:Schema.Types.ObjectId,
+        ref:"Event"
+      }
+    ]
   },
   { timestamps: true }
 );
