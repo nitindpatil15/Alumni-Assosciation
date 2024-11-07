@@ -19,6 +19,7 @@ import LandingPage from "./component/Alumni/LandingPage";
 import LoginFormAlumni from "./component/Alumni/LoginFormAlumni";
 import LoginTeacher from "./component/Institute/LoginTeacher";
 // import AlumniReg from "./component/Alumni/AlumniRegForm";
+import Chat from "./component/Chat/Chat";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
+          <Route path="/chat" element={<Chat/>} />
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/events" element={<RegisterEvent/>} />
           <Route path="/eventpost" element={<EventPosting/>} />
@@ -43,7 +45,8 @@ function App() {
           <Route path="/AlumniLogin" element={<LoginFormAlumni/>} />
           <Route path="/TeacherLogin" element={<LoginTeacher/>} />
           {/* <Route path="/AlumniReg" element={<AlumniRegForm/>} /> */}
-
+          <Route path="/events" element={<EventPage/>} />
+          <Route path="/get-event/:id" element={<RegisterEvent/>} />
         </Routes>
       </div>
       <Footer/>

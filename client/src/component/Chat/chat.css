@@ -1,0 +1,16 @@
+.chat{
+    height: 600px;
+    width: 30rem;
+    margin-top: 3.5rem;
+    border: 2px solid black;
+}
+
+.chat p{
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.chat input{
+    border: 1px;
+}

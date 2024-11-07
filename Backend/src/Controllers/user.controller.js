@@ -2,30 +2,34 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ACCESSTOKEN_SECRET_KEY } from "../constant.js";
 import { User } from "../Models/User.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponce } from "../utils/ApiResponse.js";
 
-// Generate AccessToken Functionality 
-export const accesstokenGenerate = async(userId)=>{
-  const userToken = await User.findById(userId)
-  const accessToken = userToken.generateAccessToken()
-  console.log("From genrate accessToken",accessToken)
-  return {accessToken}
-}
+// Generate AccessToken Functionality
+export const accesstokenGenerate = async (userId) => {
+  try {
+    const userToken = await User.findById(userId);
+    const accessToken = userToken.generateAccessToken();
+    console.log("From genrate accessToken", accessToken);
+    return { accessToken };
+  } catch (error) {
+    throw new ApiError(500, error?.message || "Server Error");
+  }
+};
 
-// User registration 
-export const userRegister = async (req, res) => {
+// User registration
+export const StudentRegister = async (req, res) => {
   try {
     const { name, mobile, email, password, role } = req.body;
     if (!name || !mobile || !email || !password || !role) {
-      res.status(400).json({ message: "All fields are required." });
-      return;
+      throw new ApiError(400, "All fields are required.");
     }
 
     const existedUser = await User.findOne({
       $or: [{ email }, { mobile }],
     });
     if (existedUser) {
-      res.status(400).json({ message: "Mobile.No or Email already exists." });
-      return;
+      throw new ApiError(401, "Mobile.No or Email already exists.");
     }
 
     const createduser = await User.create({
@@ -33,66 +37,118 @@ export const userRegister = async (req, res) => {
       email,
       password,
       mobile,
-      role,
+      role: Student,
     });
     if (!createduser) {
-      res.status(400).json({ message: "Failed to create User." });
-      return;
+      throw new ApiError(402, "Failed to create User.");
     }
     const user = await User.findById(createduser?._id).select("-password");
 
     return res
       .status(200)
-      .json({ data: user, message: "User Registartion Successfully" });
+      .json(new ApiResponce(200, "User created successfully", user));
   } catch (error) {
-    res.status(500).json({ message: "Server Error." });
-    return error;
+    throw new ApiError(500, error?.message || "Server Error");
   }
 };
 
-// User Login 
+// User Login
 export const userlogin = async (req, res) => {
   const { email, mobile, password } = req.body;
   if (!password || (!mobile && !email)) {
-    res.status(400).json({ message: "All Fields are Required." });
-    return;
+    throw new ApiError(401, "All Fields are Required.");
   }
   try {
     const userDetail = await User.findOne({
       $or: [{ email }, { mobile }],
-    })
+    });
     if (!userDetail) {
-      res.status(400).json({ message: "Mobile.No or Email already exists." });
-      return;
+      throw new ApiError(402, "Mobile.No or Email already exists.");
     }
     const isValidPassword = await bcrypt.compare(password, userDetail.password);
     if (!isValidPassword) {
-      console.error("Invalid Password");
-      return;
+      throw new ApiError(402, "Invalid Password");
     }
 
-    const {accessToken} = await accesstokenGenerate(userDetail._id)
-    console.log(accessToken)
-    const loggedUser = await User.findById(userDetail._id).select("-password")
+    const { accessToken } = await accesstokenGenerate(userDetail._id);
+    console.log(accessToken);
+    const loggedUser = await User.findById(userDetail._id).select("-password");
 
     return res
       .status(200)
       .cookie("accessToken", accessToken)
-      .json({ data: loggedUser, token: accessToken });
+      .json(
+        new ApiResponce(
+          200,
+          { loggedUser, accessToken },
+          "User Logged In Successfully"
+        )
+      );
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: error.message || "Server Error." });
-    return error;
+    console.log(error);
+    throw new ApiError(500, error?.message || "Server Error.");
   }
 };
 
-export const getCurrentUser = async(req,res)=>{
-  const user = req.user
+// Fetch Current User
+export const getCurrentUser = async (req, res) => {
+  const user = req.user._id;
   try {
-    const response = await User.findById(user._id)
-    console.log(response.data)
-    return res.status(200).json(response)
+    const response = await User.findById(user);
+    if (!response) {
+      throw new ApiError(401, "User not Found");
+    }
+    console.log(response.data);
+    return res
+      .status(200)
+      .json(new ApiResponce(200, response, "Fetched current User"));
   } catch (error) {
-    
+    throw new ApiError(500, error?.message || "Server Error");
   }
-}
+};
+
+
+// Basic Details 
+export const updateBasicDetails = async (req, res) => {
+  const { mobile, city, email, interest } = req.body;
+  if (!mobile || !city || !email || !interest) {
+    throw new ApiError(401, "All Fields are Required!!!");
+  }
+  try {
+    const updateDetails =
+      ({
+        $set: {
+          mobile,
+          city,
+          email,
+          interest,
+        },
+      },
+      { new: true });
+
+      if(!updateDetails){
+        throw new ApiError("Something went wrong !! Try again...")
+      }
+
+      return res.status(200).json(200,updateDetails,"basic details Updated")
+  } catch (error) {
+    throw new ApiError(500,`Server Error: ${error}`)
+  }
+};
+
+// User Logout
+export const userlogout = async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(401, "Unauthorized User");
+    }
+    return res
+      .status(200)
+      .clearCookie("accessToken")
+      .json(new ApiResponce(200, "User logged out successfully"));
+  } catch (error) {
+    throw new ApiError(500, error?.message || "Server Error");
+  }
+};
