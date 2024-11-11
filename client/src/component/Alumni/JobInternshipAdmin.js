@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './JobInternshipAdmin.css'; 
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import "./JobInternshipAdmin.css";
+import { AllJobs, deleteJob, GetJobbyId } from "../../Redux/Reducers/jobSlice";
+import { CurrentUser } from "../../Redux/Reducers/userSlice";
 
 const JobInternshipTabs = () => {
-  const [activeTab, setActiveTab] = useState('job');
-  const [filterBranch, setFilterBranch] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("job");
+  const [filterBranch, setFilterBranch] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
+
+  // Fetch jobs from Redux store
+  const { jobs, job } = useSelector((state) => state.job);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(CurrentUser());
+    dispatch(AllJobs());
+  }, [dispatch]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -16,9 +30,11 @@ const JobInternshipTabs = () => {
     setFilterBranch(e.target.value);
   };
 
-  const openPopup = (content) => {
-    setPopupContent(content);
-    setIsPopupOpen(true);
+  const openPopup = (jobId) => {
+    dispatch(GetJobbyId(jobId)).then(() => {
+      setPopupContent(job);
+      setIsPopupOpen(true);
+    });
   };
 
   const closePopup = () => {
@@ -26,29 +42,26 @@ const JobInternshipTabs = () => {
     setPopupContent(null);
   };
 
-  const jobs = [
-    { role: 'Software Engineer', company: 'ABC Corp', location: 'NYC', mode: 'Remote', type: 'Full-Time' },
-    { role: 'Data Analyst', company: 'XYZ Inc.', location: 'SF', mode: 'Hybrid', type: 'Part-Time' },
-    { role: 'Frontend Developer', company: 'TechSolutions', location: 'LA', mode: 'Onsite', type: 'Full-Time' },
-  ];
-
-  const internships = [
-    { role: 'Web Dev Intern', company: 'ABC Corp', applications: 5, daysLeft: 10 },
-    { role: 'Data Science Intern', company: 'XYZ Inc.', applications: 3, daysLeft: 20 },
-    { role: 'Marketing Intern', company: 'TechSolutions', applications: 7, daysLeft: 5 },
-  ];
+  const handleDeleteJob = (jobId) => {
+    dispatch(deleteJob(jobId)).then(() => {
+      navigate("/JobinternAdmin");
+      window.location.reload();
+    });
+  };
 
   return (
     <div className="job-internship-container">
-      <div className="container" id='Hjob'>
-        <div className='text-h'>
-        <h1>Job & Internship</h1>
+      <div className="container" id="Hjob">
+        <div className="text-h">
+          <h1>Job & Internship</h1>
         </div>
-        <div className='button-h'>
-        <Link to="/post-job" className="create-job-btn">Post Job</Link>
-        <Link to="/InternPost" className="create-job-btn">Post Internship</Link>
+        <div className="button-h">
+          <Link to="/InternPost" className="create-job-btn">
+            Post JOB / INTERNSHIP
+          </Link>
         </div>
       </div>
+
       <div className="filter">
         <label>Filter by Branch:</label>
         <select onChange={handleFilterChange}>
@@ -61,63 +74,131 @@ const JobInternshipTabs = () => {
       </div>
 
       <div className="tabs">
-        <button className={activeTab === 'job' ? 'active' : ''} onClick={() => handleTabClick('job')}>Job</button>
-        <button className={activeTab === 'internship' ? 'active' : ''} onClick={() => handleTabClick('internship')}>Internship</button>
+        <button
+          className={activeTab === "job" ? "active" : ""}
+          onClick={() => handleTabClick("job")}
+        >
+          Job
+        </button>
+        <button
+          className={activeTab === "internship" ? "active" : ""}
+          onClick={() => handleTabClick("internship")}
+        >
+          Internship
+        </button>
       </div>
 
       <div className="card-container">
-        {activeTab === 'job' && jobs.map((job, index) => (
-          <div key={index} className="info-box" onClick={() => openPopup(job)}>
-            <h3>{job.role}</h3>
-            <p>{job.company}</p>
-            <p>{job.location}</p>
-            <p>{job.mode}</p>
-            <p>{job.type}</p>
-            <div className='btn-job'>
-            <button className="view-btn">View</button>
-              <button className="update-event-btn" >Update</button>
-              <button className="e-delete-btn">Delete</button>
+        {activeTab === "job" &&
+          jobs
+            ?.filter(
+              (job) =>
+                job.job_type === "Full-time" || job.job_type === "Part-time"
+            )
+            .map((job) => (
+              <div key={job._id} className="info-box">
+                <h3>{job.title}</h3>
+                <p>{job.company}</p>
+                <p>Job Location: {job.job_location}</p>
+                <p>Job Type: {job.job_type}</p>
+                <div className="btn-job">
+                  <button
+                    className="view-btn"
+                    onClick={() => openPopup(job._id)}
+                  >
+                    View
+                  </button>
+                  {user?._id === job?.postedBy?.toString() ||
+                  user?.role === "Admin" ? (
+                    <>
+                      <button
+                        className="update-event-btn"
+                        onClick={() => {
+                          /* Handle update job */
+                        }}
+                      >
+                        Update
+                      </button>
+                      <button
+                        className="e-delete-btn"
+                        onClick={() => handleDeleteJob(job._id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
-          </div>
-        ))}
-        {activeTab === 'internship' && internships.map((internship, index) => (
-          <div key={index} className="info-box" onClick={() => openPopup(internship)}>
-            <h3>{internship.role}</h3>
-            <p>{internship.company}</p>
-            <p>Applications: {internship.applications}</p>
-            <p>Days Left: {internship.daysLeft}</p>
-            <div className='btn-job'>
-            <button className="view-btn">View</button>
-              <button className="update-event-btn" >Update</button>
-              <button className="e-delete-btn">Delete</button>
+            ))}
+        {activeTab === "internship" &&
+          jobs
+            ?.filter((job) => job.job_type === "Internship")
+            .map((internship) => (
+              <div key={internship._id} className="info-box">
+                <h3>{internship.title}</h3>
+                <p>{internship.company}</p>
+                <p>Job Location: {internship.job_location}</p>
+                <p>Job Type: {internship.job_type}</p>
+                <div className="btn-job">
+                  <button
+                    className="view-btn"
+                    onClick={() => openPopup(internship._id)}
+                  >
+                    View
+                  </button>
+                  {user?._id === job?.postedBy?.toString() ||
+                  user?.role === "Admin" ? (
+                    <>
+                      <button className="update-event-btn">Update</button>
+                      <button
+                        className="e-delete-btn"
+                        onClick={() => handleDeleteJob(internship._id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
-          </div>
-          
-        ))}
+            ))}
       </div>
 
       {isPopupOpen && popupContent && (
         <div className="popup-wrapper">
           <div className="popup-content">
-            <span className="close-button" onClick={closePopup}>&times;</span>
-            <h2 className="popup-header">Company Details</h2>
-                      <div className="popup-body">
-                          <p><strong>Company Name:</strong> {popupContent.company}</p>
-                          <p><strong>Company Website:</strong> <a href={popupContent.companyWebsite} target="_blank" rel="noopener noreferrer">{popupContent.companyWebsite}</a></p>
-                          <p><strong>Company Email:</strong> {popupContent.companyEmail}</p>
-                          <p><strong>Company Details:</strong> {popupContent.companyDetails}</p>
-
+            <span className="close-button" onClick={closePopup}>
+              &times;
+            </span>
             <h2 className="popup-header">Job Details</h2>
-                          <p><strong>Job Type:</strong> {popupContent.type || 'N/A'}</p>
-                          <p><strong>Job Title:</strong> {popupContent.role}</p>
-                          <p><strong>Job Description:</strong> {popupContent.jobDescription}</p>
-                          <p><strong>Job Location:</strong> {popupContent.location || 'N/A'}</p>
-                          <p><strong>Job Category:</strong> {popupContent.jobCategory || 'N/A'}</p>
-                      </div>
-
+            <p>
+              <strong>Title:</strong> {popupContent.title}
+            </p>
+            <p>
+              <strong>Company:</strong> {popupContent.company}
+            </p>
+            <p>
+              <strong>Location:</strong> {popupContent.job_location}
+            </p>
+            <p>
+              <strong>Type:</strong> {popupContent.job_type}
+            </p>
+            <p>
+              <strong>Description:</strong> {popupContent.description}
+            </p>
+            <p>
+              <strong>Posted On:</strong> {popupContent.createdAt}
+            </p>
             <div className="action-buttons">
-              <button className="close-btn" onClick={closePopup}>Close</button>
-              <button className="apply-btn">Apply</button>
+              <button className="close-btn" onClick={closePopup}>
+                Close
+              </button>
+              <Link to={popupContent.link} className="apply-btn">
+                Apply
+              </Link>
             </div>
           </div>
         </div>

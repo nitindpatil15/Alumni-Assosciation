@@ -1,11 +1,10 @@
 import { Router } from "express";
-import authentication from "../Middleware/auth.middleware";
-import { RegisterEvent } from "../Models/RegisterEvent";
-import { GetAllRegisteredUserOfEvent } from "../Controllers/regsterevent.controller";
+import authentication from "../Middleware/auth.middleware.js";
+import { GetAllRegisteredUserOfEvent, RegisterForEvents } from "../Controllers/regsterevent.controller.js";
 
 const router = Router()
 
-router.route('/register').post(authentication,RegisterEvent)
-router.route('/register/user').get(authentication,GetAllRegisteredUserOfEvent)
+router.route('/register/:id').post(authentication,RegisterForEvents)
+router.route('/register/user/:id').get(authentication,GetAllRegisteredUserOfEvent)
 
 export default router

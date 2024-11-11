@@ -17,7 +17,23 @@ export const NewJob = async (req, res) => {
     applicationDeadline,
     company_size,
     link,
+    Intern_duration,
   } = req.body;
+  console.log(
+    title,
+    company,
+    company_location,
+    job_location,
+    company_email,
+    job_type,
+    salary,
+    description,
+    requirements,
+    applicationDeadline,
+    company_size,
+    link,
+    Intern_duration
+  );
   if (
     !title ||
     !company ||
@@ -37,15 +53,17 @@ export const NewJob = async (req, res) => {
       title,
       company,
       company_location,
+      company_email,
       job_location,
       job_type,
-      salary,
+      salary:salary || "",
       description,
       requirements,
       postedBy: req.user._id, // Assuming req.user is populated by auth middleware
       applicationDeadline,
       company_size,
       link: link || "",
+      Intern_duration: Intern_duration || "",
     });
 
     const createdJob = await job.save();
@@ -102,30 +120,31 @@ export const UpdateJob = async (req, res) => {
   }
 
   if (
-    jobpost.postedBy.toString() !== req.user._id.toString() ||
-    req.user.role !== "Institution"
+    jobpost.postedBy.toString() === req.user._id.toString() ||
+    req.user.role === "Admin"
   ) {
-    throw new ApiError(403, "Access Denied");
-  }
-
-  try {
-    const updateJob = await Job.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          title,
-          description,
-          job_type,
-          salary,
+    try {
+      const updateJob = await Job.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            title,
+            description,
+            job_type,
+            salary,
+          },
         },
-      },
-      { new: true }
-    );
-    return res
-      .status(200)
-      .json(new ApiResponce(200, updateJob, "Job Updated!!"));
-  } catch (error) {
-    throw new ApiError(500, `Server Error: ${error}`);
+        { new: true }
+      );
+      return res
+        .status(200)
+        .json(new ApiResponce(200, updateJob, "Job Updated!!"));
+    } catch (error) {
+      throw new ApiError(500, `Server Error: ${error}`);
+    }
+  }
+  {
+    throw new ApiError(403, "Access Denied");
   }
 };
 
@@ -141,17 +160,21 @@ export const DeleteJob = async (req, res) => {
   }
 
   if (
-    jobpost.postedBy.toString() !== req.user._id.toString() ||
-    req.user.role !== "Institution"
+    jobpost.postedBy.toString() === req.user._id.toString() ||
+    req.user.role === "Admin"
   ) {
-    throw new ApiError(403, "Access Denied");
+    try {
+      const deleteJob = await Job.findByIdAndDelete(id);
+      return res
+        .status(200)
+        .json(new ApiResponce(200, deleteJob, "Job Deleted"));
+    } catch (error) {
+      throw new ApiError(500, `Server Error: ${error}`);
+    }
   }
 
-  try {
-    const deleteJob = await Job.findByIdAndDelete(id);
-    return res.status(200).json(new ApiResponce(200, deleteJob, "Job Deleted"));
-  } catch (error) {
-    throw new ApiError(500, `Server Error: ${error}`);
+  {
+    throw new ApiError(403, "Access Denied");
   }
 };
 
@@ -175,14 +198,16 @@ export const SaveJobPost = async (req, res) => {
   }
 };
 
-export const GetSavePost = async(req,res)=>{
+export const GetSavePost = async (req, res) => {
   try {
-    const SavedPosts = await Job.find()
-    if(!SavedPosts){
-      throw new ApiError(401,"Not saved any Post")
+    const SavedPosts = await Job.find();
+    if (!SavedPosts) {
+      throw new ApiError(401, "Not saved any Post");
     }
-    return res.status(200).json(new ApiResponce(200,SavedPosts,"Fetched Saved Posts"))
+    return res
+      .status(200)
+      .json(new ApiResponce(200, SavedPosts, "Fetched Saved Posts"));
   } catch (error) {
     throw new ApiError(500, `Server Error: ${error.message}`);
   }
-}
+};

@@ -2,6 +2,7 @@ import http from "http";
 import { Server } from "socket.io";
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 // import routers here
 import chatRoutes from "./Router/chatRouter.js";
 import userRoutes from "./Router/userRouter.js";
@@ -27,9 +28,26 @@ app.use(cookieParser());
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:3001"],
-    methods: ["GET", "POST"],
+    origin: "http://localhost:3000",
+    methods: ["GET", "HEAD"]
   },
+});
+
+const corsOptions={
+  origin: "http://localhost:3000",
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  headers: ["Content-Type", 'Authorization', 'auth-token'],
+  credentials: true,
+}
+app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, auth-token"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
 });
 
 export const getRecieverSocketId = (reciverId) => {
@@ -55,6 +73,6 @@ app.use("/api/v1/user/chat", chatRoutes);
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/job", jobRoutes);
 app.use("/api/v1/event", eventRoutes);
-app.use("/api/v1/event/register", registerEventRoutes);
+app.use("/api/v1/registerevent", registerEventRoutes);
 
 export { app, io, server };

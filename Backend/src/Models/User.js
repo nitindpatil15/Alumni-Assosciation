@@ -33,8 +33,13 @@ const userSchema = new Schema(
     DOB: {
       type: Date,
     },
-    gender:["Male,Female,Other"],
-    role: ["Student", "Alumni", "Institution", "Faculty"],
+    gender:{
+      type:String
+    },
+    role: {
+      type: String,
+      enum: ["Student", "Alumni", "Admin"],
+    },
     password: {
       type: String,
       required: true,

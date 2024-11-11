@@ -50,6 +50,9 @@ const jobSchema = new Schema({
     type:Number,
     required:true
   },
+  Intern_duration:{
+    type:String
+  },
   link:{
     type:String
   }

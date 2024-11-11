@@ -6,9 +6,9 @@ import { upload } from "../Middleware/upload.middleware.js"
 const router = Router()
 
 router.route("/newevent").post(authentication,upload.single("image"),AddNewEvent)
-router.route("/").post(GetAllEvent)
-router.route("/getbyid/:id").post(GetEventById)
-router.route("/update/:id").post(authentication,upload.single("image"),UpdateEvent)
-router.route("/delete/:id").post(authentication,deleteEvent)
+router.route("/").get(GetAllEvent)
+router.route("/getbyid/:id").get(GetEventById)
+router.route("/update/:id").patch(authentication,upload.single("image"),UpdateEvent)
+router.route("/delete/:id").delete(authentication,deleteEvent)
 
 export default router

@@ -10,6 +10,10 @@ const RegisterEventSchema = new Schema({
     mobile:{
         type:Number
     },
+    eventId:{
+        type:Schema.Types.ObjectId,
+        ref:"Event"
+    },
     re_user:{
         type:Schema.Types.ObjectId,
         ref:"User"

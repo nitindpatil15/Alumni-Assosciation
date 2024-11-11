@@ -14,6 +14,7 @@ export const AllJobs = createAsyncThunk('jobs/allJobs', async () => {
   const response = await axios.get(`${host}/job/all-jobs`, {
     withCredentials: true 
   });
+  console.log(response.data.data)
   return response.data.data;
 });
 
@@ -32,7 +33,7 @@ export const updateJob = createAsyncThunk('jobs/updatejob', async (id,updateData
 });
 
 export const deleteJob = createAsyncThunk('jobs/deltejob', async (id) => {
-  const response = await axios.patch(`${host}/job/delete/${id}`, {
+  const response = await axios.delete(`${host}/job/delete/${id}`, {
     withCredentials: true 
   });
   return response.data.data;
@@ -42,6 +43,7 @@ const jobSlice = createSlice({
   name: 'jobs',
   initialState: {
     jobs: [],
+    job:null,
     error: null,
     status: 'idle'
   },
@@ -53,7 +55,7 @@ const jobSlice = createSlice({
       })
       .addCase(addNewJob.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.videos = action.payload;
+        state.jobs = action.payload;
       })
       .addCase(addNewJob.rejected, (state, action) => {
         state.status = 'failed';
@@ -64,7 +66,7 @@ const jobSlice = createSlice({
       })
       .addCase(AllJobs.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.videos = action.payload;
+        state.jobs = action.payload;
       })
       .addCase(AllJobs.rejected, (state, action) => {
         state.status = 'failed';
@@ -75,7 +77,7 @@ const jobSlice = createSlice({
       })
       .addCase(GetJobbyId.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.videos = action.payload;
+        state.job = action.payload;
       })
       .addCase(GetJobbyId.rejected, (state, action) => {
         state.status = 'failed';
@@ -86,7 +88,7 @@ const jobSlice = createSlice({
       })
       .addCase(updateJob.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.videos = action.payload;
+        state.jobs = action.payload;
       })
       .addCase(updateJob.rejected, (state, action) => {
         state.status = 'failed';
@@ -97,7 +99,7 @@ const jobSlice = createSlice({
       })
       .addCase(deleteJob.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.videos = action.payload;
+        state.jobs = action.payload;
       })
       .addCase(deleteJob.rejected, (state, action) => {
         state.status = 'failed';

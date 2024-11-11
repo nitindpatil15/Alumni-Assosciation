@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import connectDb from './Db/index.js';
 import { PORT } from './constant.js';
 import { app,server } from './app.js';
+import { User } from './Models/User.js';
 
 // Load environment variables from .env file
 config({
@@ -11,7 +12,7 @@ config({
 
 // Connect to MongoDB using the `connectDb` function
 connectDb()
-    .then(() => {
+    .then(async() => {
         // Handle server errors 
         app.on('error', (error) => {
             console.error('Server Error:', error);

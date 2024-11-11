@@ -1,31 +1,34 @@
-import { RegisterEvent } from "../Models/RegisterEvent";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponce } from "../utils/ApiResponse";
+import { RegisterEvent } from "../Models/RegisterEvent.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponce } from "../utils/ApiResponse.js";
 
 export const RegisterForEvents = async (req, res) => {
   const { eventId } = req.params;
   const { email, name, mobile } = req.body;
-  if (!email || !name) {
-    throw new ApiError(401, "Email or name not found");
+
+  console.log(email,mobile)
+  if (!email || !mobile) {
+    throw new ApiError(401, "Email or mobile number not found");
   }
   try {
     const register = await RegisterEvent.create({
       email,
-      fullName,
-      mobile: mobile || null,
+      name: name || "",
+      mobile,
       eventId,
-      re_user: req.user._id,
+      user: req.user._id,
     });
-    register.save();
 
-    const user = req.user;
-    user.event_registration = eventId;
-    await user.save();
+    // Save the registration data and update user record
+    await register.save();
+    req.user.event_registration = eventId;
+    await req.user.save();
 
     return res
       .status(200)
       .json(new ApiResponce(200, register, "Registered successfully"));
   } catch (error) {
+    console.log(error)
     throw new ApiError(500, `Server Error: ${error?.message}`);
   }
 };

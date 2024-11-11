@@ -13,6 +13,9 @@ const eventSchema = new Schema({
         type:String,
         required:true
     },
+    organized_for:{
+        type:String
+    },
     event_type:["Online","InPerson"],
     event_title:{
         type:String,

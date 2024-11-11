@@ -1,9 +1,10 @@
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponce } from "../utils/ApiResponse.js";
+import { Event } from "../Models/Event.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const AddNewEvent = async (req, res) => {
   const {
-    image,
     organizer,
     speaker_name,
     event_type,
@@ -12,7 +13,7 @@ export const AddNewEvent = async (req, res) => {
     start_date,
     end_date,
   } = req.body;
-
+  const image = req.file?.path;
   // Validation
   if (
     !image ||
@@ -25,9 +26,13 @@ export const AddNewEvent = async (req, res) => {
     throw new ApiError(400, "Please fill all required fields");
   }
 
+  const uploadImage = await uploadOnCloudinary(image);
+  if (!uploadImage) {
+    return new ApiError(401, "Failed to upload Image");
+  }
   try {
     const event = new Event({
-      image,
+      image: uploadImage.url,
       organizer,
       speaker_name,
       event_type,
@@ -35,6 +40,7 @@ export const AddNewEvent = async (req, res) => {
       event_description,
       start_date,
       end_date,
+      owner: req.user._id,
     });
     const newEvent = await event.save();
     if (!newEvent) {
@@ -42,13 +48,14 @@ export const AddNewEvent = async (req, res) => {
     }
     return res.status(200).json(new ApiResponce(200, newEvent, "Event added"));
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, `Server Error: ${error}`);
   }
 };
 
 export const GetAllEvent = async (req, res) => {
   try {
-    const allevents = await Event.find({});
+    const allevents = await Event.find();
     if (!allevents) {
       throw new ApiError(401, "No events found");
     }
@@ -56,6 +63,7 @@ export const GetAllEvent = async (req, res) => {
       .status(200)
       .json(new ApiResponce(200, allevents, "Fetched all events"));
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, `Server Error: ${error}`);
   }
 };
@@ -80,8 +88,8 @@ export const GetEventById = async (req, res) => {
 
 export const UpdateEvent = async (req, res) => {
   const { id } = req.params;
-  const { event_title, event_description, start_date, end_date, image } =
-    req.body;
+  const { event_title, event_description, start_date, end_date } = req.body;
+  const image = req.file?.path; // Get the uploaded file path if it exists
 
   if (!id) {
     throw new ApiError(402, "Id is required");
@@ -92,35 +100,51 @@ export const UpdateEvent = async (req, res) => {
     throw new ApiError(404, "Event not found");
   }
 
-  if (
-    event.owner.toString() !== req.user._id.toString() ||
-    req.user.role !== "Institution"
-  ) {
-    throw new ApiError(403, "You are not the owner of this event");
+  let uploadImage;
+  if (image) {
+    // Only attempt to upload if an image file is provided
+    uploadImage = await uploadOnCloudinary(image);
+    if (!uploadImage) {
+      throw new ApiError(404, "Failed to upload image");
+    }
   }
 
-  try {
-    const updateEvent = await Event.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          event_title,
-          event_description,
-          start_date,
-          end_date,
-          image,
-        },
-      },
-      { new: true }
-    );
-    if (!updateEvent) {
-      throw new ApiError(402, "Failed to update");
+  // Check authorization
+  if (
+    event.owner.toString() === req.user._id.toString() ||
+    req.user.role === "Admin"
+  ) {
+    try {
+      const updateData = {
+        event_title,
+        event_description,
+        start_date,
+        end_date,
+      };
+
+      // Only update the image URL if a new image was uploaded
+      if (uploadImage) {
+        updateData.image = uploadImage.url;
+      }
+
+      const updateEvent = await Event.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
+
+      if (!updateEvent) {
+        throw new ApiError(402, "Failed to update event");
+      }
+
+      return res
+        .status(200)
+        .json(new ApiResponce(200, updateEvent, "Event Updated"));
+    } catch (error) {
+      throw new ApiError(500, `Server Error: ${error.message}`);
     }
-    return res
-      .status(200)
-      .json(new ApiResponce(200, updateEvent, "Event Updated"));
-  } catch (error) {
-    throw new ApiError(500, `Server Error: ${error.message}`);
+  } else {
+    throw new ApiError(403, "You are not the owner of this event");
   }
 };
 
@@ -135,23 +159,27 @@ export const deleteEvent = async (req, res) => {
     throw new ApiError(404, "Event not found");
   }
 
+  console.log(
+    req.user._id,
+    event.owner,
+    req.user._id.toString() === event.owner.toString()
+  );
   if (
-    event.owner.toString() !== req.user._id.toString() ||
-    req.user.role !== "Institution"
+    event.owner.toString() === req.user._id.toString() ||
+    req.user.role === "Admin"
   ) {
+    try {
+      const deletedEvent = await Event.findByIdAndDelete(id);
+      if (!deletedEvent) {
+        throw new ApiError(401, "Failed to delete Event");
+      }
+      return res
+        .status(200)
+        .json(new ApiResponce(200, deletedEvent, "Event Deleted"));
+    } catch (error) {
+      throw new ApiError(500, `Server Error: ${error.message}`);
+    }
+  } else {
     throw new ApiError(403, "You are not the owner of this event");
   }
-
-  try {
-    const deletedEvent = await Event.findByIdAndDelete(id);
-    if (!deletedEvent) {
-      throw new ApiError(401, "Failed to delete Event");
-    }
-    return res
-      .status(200)
-      .json(new ApiResponce(200, deletedEvent, "Event Deleted"));
-  } catch (error) {
-    throw new ApiError(500, `Server Error: ${error.message}`);
-  }
 };
-
