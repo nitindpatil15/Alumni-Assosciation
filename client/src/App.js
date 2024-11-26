@@ -16,12 +16,20 @@ import InternshipPostingForm from "./component/Alumni/InternshipPostingForm";
 import LandingPage from "./component/Alumni/LandingPage";
 import LoginFormAlumni from "./component/Alumni/LoginFormAlumni";
 import LoginTeacher from "./component/Institute/LoginTeacher";
+import Chatbot from "./component/Alumni/Chatbot";
 // import AlumniReg from "./component/Alumni/AlumniRegForm";
 import Chat from "./component/Chat/Chat";
 import LoginFormStudent from "./component/Login";
+import Registration from "./component/Alumni/Registration";
+import EditProfile from "./component/Alumni/EditProfile";
+import SuccessStory from "./component/Alumni/SuccessStory";
+import DocumentKeeper from "./component/Alumni/DocumentKeeper";
+
 
 function App() {
+  
   return (
+    
     <Router>
       <Navbar title="Alumni"/>
       <div className="min-h-screen bg-gray-100">
@@ -43,6 +51,11 @@ function App() {
           {/* <Route path="/AlumniReg" element={<AlumniRegForm/>} /> */}
           {/* <Route path="/events" element={<EventPage/>} /> */}
           <Route path="/get-event/:id" element={<RegisterEvent/>} />
+          <Route path="/Chatbot" element={<Chatbot/>} /> 
+          <Route path="/Register" element={<Registration/>} />
+          <Route path="/EditProfile" element={<EditProfile/>} />
+          <Route path="/SuccessStory" element={<SuccessStory/>} />
+          {/* <Route path="/Dockeeper" element={<DocumentKeeper/>} /> */}
         </Routes>
       </div>
       <Footer/>

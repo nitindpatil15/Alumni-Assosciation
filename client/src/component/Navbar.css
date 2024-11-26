@@ -404,6 +404,7 @@ body{
 
 ul{
   list-style: none;
+  margin-bottom: 0px;
 }
 a{
   text-decoration: none;
@@ -506,6 +507,7 @@ img {
     width: 100%;
     height: 4rem;
     padding: 0 1rem;
+    padding-top: 20px;
     display: grid;
     align-content: center;
     border-radius: 1.25rem 1.25rem 0 0;
@@ -607,7 +609,7 @@ img {
   border-radius: 10px;
   color: white;
   position: absolute;
-  bottom: 38px;
+  bottom: 60px;
   right: 0px;
   display: flex;
   background-image: linear-gradient(to right, red, rgb(0, 0, 255));
@@ -743,6 +745,23 @@ img {
 }
 
 @media screen and (max-width: 767px) {
+  .nav__menu {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    background-color: var(--container-color);
+    box-shadow: 0 -1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
+    width: 100%;
+    height: 5rem;
+    padding: 0 1rem;
+    padding-top: 20px;
+    display: grid;
+    /* margin-bottom: 20px; */
+    padding-bottom: 20px;
+    align-content: center;
+    border-radius: 1.25rem 1.25rem 0 0;
+    transition: .4s;
+}
   .dropdown-menu {
     bottom: calc(var(--header-height) + 60px);
     top: auto;

@@ -1,0 +1,26 @@
+.kommunicate-custom-iframe {
+    max-height: calc(100% - 30px) !important;
+    border: none;
+    position: fixed;
+    z-index: 2243000;
+    bottom: 70px; 
+    right: 17px;
+    height: 75px;
+    width: 75px;
+    transition: unset;
+    color-scheme: light;
+}
+@media screen and (max-width: 767px) {
+    .kommunicate-custom-iframe {
+        max-height: calc(100% - 30px) !important;
+        border: none;
+        position: fixed;
+        z-index: 2243000;
+        bottom: 70px !important;
+        right: 17px;
+        height: 75px;
+        width: 75px;
+        transition: unset;
+        color-scheme: light;
+    }
+}

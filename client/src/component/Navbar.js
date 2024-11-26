@@ -82,10 +82,11 @@ const Navbar = () => {
                 <p className="prn">PRN: {user?.prn || user?.mobile}</p>
               </div>
               <div className="card-content-btn">
-                <button className="btn-ID">
+              <Link to="/EditProfile"> <button className="btn-ID">
                   <i className="fa fa-sign-out" aria-hidden="true"></i> Edit
                   Profile
                 </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -220,13 +221,16 @@ const Navbar = () => {
                   {showDropdown && (
                     <ul className="dropdown-menu">
                       <li className="dropdown-item">
-                        <Link to="/stories">Stories & Achievements</Link>
+                        <Link to="/Dockeeper">Document Keeper</Link>
                       </li>
                       <li className="dropdown-item">
-                        <Link to="/AlumniLogin">Contact Us</Link>
+                        <Link to="/SuccessStory">Stories & Achievements</Link>
                       </li>
                       <li className="dropdown-item">
-                        <Link to="/faq">FAQ</Link>
+                        <Link to="/Register">Contact Us</Link>
+                      </li>
+                      <li className="dropdown-item">
+                        <Link to="/Chatbot">FAQ</Link>
                       </li>
                     </ul>
                   )}
@@ -245,7 +249,7 @@ const Navbar = () => {
                       className="fa fa-user-circle-o nav__icon-new"
                       aria-hidden="true"
                     ></i>
-                    <span className="nav__name">Profile</span>
+                    {/* <span className="nav__name">Profile</span> */}
                   </a>
                 </li>
 
@@ -255,9 +259,9 @@ const Navbar = () => {
                       className="bx bx-message-square-detail nav__icon"
                       id="chat-i"
                     ></i>
-                    <span className="nav__name" id="chatbox">
+                    {/* <span className="nav__name" id="chatbox">
                       Chat Box
-                    </span>
+                    </span> */}
                   </Link>
                 </li>
               </ul>

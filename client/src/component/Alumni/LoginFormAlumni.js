@@ -87,7 +87,7 @@ const LoginFormAlumni = () => {
               </div>
             </form>
             <p className="sign-up">
-              Don't have an account? <a href="#">Sign up now</a>
+              Don't have an account?<Link to="/Register">Sign up now </Link>
             </p>
           </div>
           <div className="login-right">
